@@ -1,18 +1,91 @@
 @extends('layouts.app')
+
 @section('content')
-<body>
+
+@if(session('success'))
+    <div class="p-4 mb-4 text-green-800 bg-green-100 rounded-md">
+        {{ session('success') }}
+    </div>
+@endif
+
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Cart") }}
-                </div>
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <h2 class="mb-4 text-2xl font-bold">Shopping Cart</h2>
+            <div>
+                @foreach ($cartItems as $item)
+                    <div class="flex items-center justify-between p-4 mb-4 bg-white rounded-lg shadow">
+                        {{-- <div>
+                    <img alt="Product Image" class="object-cover w-full h-64 mb-4"
+                                            src="{{ $item->product->photo ? asset('storage/' . $item->product->photo) : asset('img/avatar.png') }}" />
+                    <h3 class="text-lg font-semibold">{{ $item->product->product_name }}</h3>
+                    <p>Price: IDR {{ number_format($item->product->price, 2) }}</p>
+                    <p>Stock: {{ $item->product->stock }}</p>
+                </div> --}}
+                        <div class="flex items-start space-x-4">
+                            <img alt="Product Image" class="object-cover w-32 h-32 rounded-md"
+                                src="{{ $item->product->photo ? asset('storage/' . $item->product->photo) : asset('img/avatar.png') }}" />
+                            <div>
+                                <h3 class="text-lg font-semibold">{{ $item->product->product_name }}</h3>
+                                <p>Price: IDR {{ number_format($item->product->price, 2) }}</p>
+                                <p>Stock: {{ $item->product->stock }}</p>
+                            </div>
+                        </div>
 
-                
+                        <!-- Tombol Delete -->
+                        <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="ml-4">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini dari keranjang?')"
+                                class="text-red-600 hover:text-red-800">
+                                <!-- Ikon Delete -->
+                                <i class="mr-2 fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
 
-                
+                        <div class="flex items-center">
+                            <button onclick="updateQuantity({{ $item->id }}, -1)"
+                                class="px-2 py-1 text-white bg-gray-500 rounded">
+                                -
+                            </button>
+                            <input type="text" readonly value="{{ $item->quantity }}"
+                                class="w-12 mx-2 text-center border">
+                            <button onclick="updateQuantity({{ $item->id }}, 1)"
+                                class="px-2 py-1 text-white bg-blue-500 rounded">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <h3 class="mt-6 text-lg font-bold">Total: IDR {{ number_format($total, 2) }}</h3>
+
+            <div class="mt-4">
+                <input type="text" placeholder="Coupon Code" class="p-2 border rounded">
+                <button class="px-4 py-2 ml-2 text-white bg-green-500 rounded">Apply</button>
             </div>
         </div>
     </div>
-</body>
 @endsection
+<script>
+    async function updateQuantity(itemId, delta) {
+        try {
+            const response = await fetch(`/cart/update/${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    delta
+                })
+            });
+
+            if (response.ok) {
+                location.reload(); // Refresh halaman
+            }
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+        }
+    }
+</script>
