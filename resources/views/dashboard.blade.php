@@ -13,7 +13,7 @@
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="max-w-6xl p-6 mx-auto bg-white rounded-lg shadow-md">
+                    <div class="mx-auto max-w-6xl rounded-lg bg-white p-6 shadow-md">
                         <h1 class="mb-1 text-3xl font-bold">
                             Dashboard
                         </h1>
@@ -22,16 +22,16 @@
 
                         <!-- Section Berita -->
                         <div class="mt-8">
-                            <h2 class="mb-4 text-xl font-bold text-gray-800 ">Latest Computer News</h2>
+                            <h2 class="mb-4 text-xl font-bold text-gray-800">Latest Computer News</h2>
 
                             <!-- Slider Berita -->
-                            <div class="relative w-full overflow-hidden h-72">
+                            <div class="relative h-72 w-full overflow-hidden">
                                 <!-- Container Scroll -->
                                 <div id="news-slider"
-                                    class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+                                    class="flex h-full w-full snap-x snap-mandatory overflow-x-auto scrollbar-hide">
                                     <!-- Placeholder saat API belum dimuat -->
                                     <div
-                                        class="flex items-center justify-center flex-shrink-0 w-full h-full bg-gray-100 rounded-lg shadow-md dark:bg-gray-800">
+                                        class="flex h-full w-full flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 shadow-md dark:bg-gray-800">
                                         <p class="text-gray-500 dark:text-gray-300">Loading news...</p>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                         <!-- Dropdown Filter Category -->
                         <form id="category-filter-form" method="GET" action="{{ url()->current() }}" class="mb-6">
                             <select name="category_id"
-                                class="w-64 p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                class="w-64 rounded-lg border border-gray-300 bg-gray-100 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onchange="document.getElementById('category-filter-form').submit()">
                                 <option value="" class="text-gray-400">Show All Products</option>
                                 @foreach ($categories as $category)
@@ -55,7 +55,7 @@
                             </select>
                         </form>
 
-                        <div class="p-6 bg-white rounded-lg shadow-md">
+                        <div class="rounded-lg bg-white p-6 shadow-md">
                             <h2 class="mb-4 text-xl font-bold">
                                 Our Products
                             </h2>
@@ -63,8 +63,8 @@
                             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                                 @foreach ($products as $product)
                                     <!-- Product Card -->
-                                    <div class="p-4 bg-white rounded-lg shadow-md">
-                                        <img alt="Product Image" class="object-cover w-full h-64 mb-4"
+                                    <div class="rounded-lg bg-white p-4 shadow-md">
+                                        <img alt="Product Image" class="mb-4 h-64 w-full object-cover"
                                             src="{{ $product->photo ? asset('storage/' . $product->photo) : asset('img/avatar.png') }}" />
                                         <h2 class="mb-2 text-lg font-semibold">
                                             {{ $product->product_name }}
@@ -72,43 +72,43 @@
                                         <p class="mb-4 text-gray-700">
                                             PRICE : {{ number_format($product->price, 2) }}
                                         </p>
-                                        {{-- <button class="px-4 py-2 mb-2 text-white bg-blue-500 rounded-lg">
+                                        {{-- <button class="mb-2 rounded-lg bg-blue-500 px-4 py-2 text-white">
                                             Add to Cart
                                         </button> --}}
 
-                                        <button class="px-4 py-2 mb-2 text-white bg-blue-500 rounded-lg"
+                                        <button class="mb-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
                                             onclick="showAddToCartPopup({{ $product->id }})">
                                             Add to Cart
                                         </button>
 
                                         {{-- Pop-Up Cart --}}
                                         {{-- <div id="add-to-cart-popup" --}}
-                                        {{-- class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-50"> --}}
-                                        {{-- <div class="relative w-1/3 p-6 bg-white rounded-lg shadow-lg"> --}}
+                                        {{-- class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-800 bg-opacity-50"> --}}
+                                        {{-- <div class="relative w-1/3 rounded-lg bg-white p-6 shadow-lg"> --}}
                                         {{-- <h3 class="mb-4 text-xl font-semibold">Add to Cart Confirmation</h3> --}}
                                         <p id="popup-product-description" class="mb-4 text-gray-700"></p>
                                         {{-- <p><strong>Price:</strong> <span id="popup-product-price"></span></p> --}}
                                         {{-- <p><strong>Stock:</strong> <span id="popup-product-stock"></span></p> --}}
-                                        {{-- <div class="flex justify-end mt-6"> --}}
-                                        {{-- <button class="px-4 py-2 mr-2 text-gray-700 bg-gray-200 rounded-lg" --}}
+                                        {{-- <div class="mt-6 flex justify-end"> --}}
+                                        {{-- <button class="mr-2 rounded-lg bg-gray-200 px-4 py-2 text-gray-700" --}}
                                         {{-- onclick="closeAddToCartPopup()">No</button> --}}
-                                        {{-- <button class="px-4 py-2 text-white bg-blue-500 rounded-lg" --}}
+                                        {{-- <button class="rounded-lg bg-blue-500 px-4 py-2 text-white" --}}
                                         {{-- onclick="addToCart()">Yes</button> --}}
                                         {{-- </div> --}}
                                         {{-- </div> --}}
                                         {{-- </div> --}}
 
                                         <div id="add-to-cart-popup"
-                                            class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
-                                            <div class="relative w-1/3 p-6 bg-white rounded-lg shadow-lg">
+                                            class="fixed inset-0 z-50 flex hidden items-center justify-center bg-gray-800 bg-opacity-50">
+                                            <div class="relative w-1/3 rounded-lg bg-white p-6 shadow-lg">
                                                 <h3 class="mb-4 text-xl font-semibold">Add to Cart Confirmation</h3>
                                                 {{-- <p id="popup-product-description" class="mb-4 text-gray-700"></p> --}}
                                                 <p><strong>Price:</strong> <span id="popup-product-price"></span></p>
                                                 <p><strong>Stock:</strong> <span id="popup-product-stock"></span></p>
-                                                <div class="flex justify-end mt-6">
-                                                    <button class="px-4 py-2 mr-2 text-gray-700 bg-gray-200 rounded-lg"
+                                                <div class="mt-6 flex justify-end">
+                                                    <button class="mr-2 rounded-lg bg-gray-200 px-4 py-2 text-gray-700"
                                                         onclick="closeAddToCartPopup()">No</button>
-                                                    <button class="px-4 py-2 text-white bg-blue-500 rounded-lg"
+                                                    <button class="rounded-lg bg-blue-500 px-4 py-2 text-white"
                                                         onclick="addToCart()">Yes</button>
                                                 </div>
                                             </div>
@@ -129,21 +129,21 @@
             </div>
 
             <div id="popup"
-                class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
-                <div class="relative w-1/2 max-h-screen p-6 overflow-y-auto bg-white rounded-lg shadow-lg">
+                class="fixed inset-0 z-50 flex hidden items-center justify-center bg-gray-800 bg-opacity-50">
+                <div class="relative max-h-screen w-1/2 overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
                     <!-- Close Button -->
                     <button
-                        class="absolute flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded-full right-4 top-4"
+                        class="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white"
                         onclick="closePopup()">X</button>
 
                     <!-- Image -->
-                    <img id="popup-photo" class="object-cover w-full h-64 mb-4" />
+                    <img id="popup-photo" class="mb-4 h-64 w-full object-cover" />
 
                     <!-- Product Name -->
                     <h2 id="popup-name" class="mb-2 text-xl font-semibold"></h2>
 
                     <!-- Description -->
-                    <div class="mb-4 overflow-y-auto max-h-40">
+                    <div class="mb-4 max-h-40 overflow-y-auto">
                         <p id="popup-description" class="text-gray-700"></p>
                     </div>
 
@@ -196,7 +196,7 @@
                 try {
                     const response = await fetch(newsApiUrl);
                     const data = await response.json();
-                    const articles = data.articles.slice(0, 100); // Ambil 100 berita pertama
+                    const articles = data.articles.slice(0, 20); // Ambil 100 berita pertama
                     newsSlider.innerHTML = ""; // Kosongkan placeholder
 
                     // Render kartu berita
@@ -212,11 +212,11 @@
             <img
                 src="${article.urlToImage || "/img/avatar.png"}"
                 alt="News Image"
-                class="object-cover w-full h-full"
+                class="h-full w-full object-cover"
             />
             <!-- Overlay Judul -->
             <div
-                class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+                class="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
                 <h3 class="text-5xl font-bold tracking-wider text-white drop-shadow-lg">
                     ${article.title}
                 </h3>
@@ -231,7 +231,7 @@
                     console.error("Error fetching news:", error);
                     newsSlider.innerHTML = `
         <div
-            class="flex items-center justify-center flex-shrink-0 w-full h-full bg-red-100 rounded-lg shadow-md dark:bg-red-800">
+            class="flex h-full w-full flex-shrink-0 items-center justify-center rounded-lg bg-red-100 shadow-md dark:bg-red-800">
             <p class="text-red-500 dark:text-red-300">Failed to load news</p>
         </div>
     `;

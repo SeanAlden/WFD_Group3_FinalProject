@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-
-@if(session('success'))
-    <div class="p-4 mb-4 text-green-800 bg-green-100 rounded-md">
-        {{ session('success') }}
-    </div>
-@endif
+    @if (session('success'))
+        <div id="flash-message"
+            class="relative px-4 py-3 text-green-700 transition-opacity duration-500 bg-green-100 border border-green-400 rounded"
+            role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
 
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
@@ -59,15 +61,32 @@
                 @endforeach
             </div>
             <h3 class="mt-6 text-lg font-bold">Total: IDR {{ number_format($total, 2) }}</h3>
-
-            <div class="mt-4">
+            <div class="flex items-center justify-between mt-4">
+                {{-- <div>
+                    <input type="text" placeholder="Coupon Code" class="p-2 border rounded">
+                    <button class="px-4 py-2 ml-2 text-white bg-green-500 rounded">Apply</button>
+                </div> --}}
+                <a href="{{ route('checkout') }}" class="px-4 py-2 text-white bg-blue-500 rounded">
+                    Checkout
+                </a>
+            </div>
+            {{-- <div class="mt-4">
                 <input type="text" placeholder="Coupon Code" class="p-2 border rounded">
                 <button class="px-4 py-2 ml-2 text-white bg-green-500 rounded">Apply</button>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            setTimeout(() => {
+                flashMessage.classList.add('opacity-0'); // Tambahkan efek transisi
+                setTimeout(() => flashMessage.remove(), 500); // Hapus elemen setelah transisi selesai
+            }, 3000); // Flash message akan hilang setelah 3 detik
+        }
+    });
     async function updateQuantity(itemId, delta) {
         try {
             const response = await fetch(`/cart/update/${itemId}`, {

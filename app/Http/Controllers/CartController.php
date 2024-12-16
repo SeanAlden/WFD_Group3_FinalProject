@@ -56,6 +56,6 @@ class CartController extends Controller
         $cartItem->delete();
 
         // Redirect kembali ke halaman cart dengan pesan sukses
-        return redirect()->route('cart')->with('success', 'Produk berhasil dihapus dari keranjang.');
+        return redirect()->route('user.cart')->with('success', 'Produk berhasil dihapus dari keranjang.');
     }
 }
