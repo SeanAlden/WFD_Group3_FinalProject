@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\MidtransHelper;
+// use App\Helpers\MidtransHelper;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Result;
@@ -37,25 +37,6 @@ class TransactionController extends Controller
             'total' => $total,
         ]);
     }
-
-    // public function checkout()
-    // {
-    //     // Ambil data keranjang atau data yang diperlukan
-    //     $cartItems = Cart::all(); // Gantilah sesuai dengan model yang Anda gunakan
-    //     $total = $cartItems->sum(function ($item) {
-    //         return $item->product->price * $item->quantity;
-    //     });
-
-    //     // Menggunakan Midtrans Snap untuk mendapatkan token
-    //     $transactionDetails = [
-    //         'order_id' => 'ORDER-' . time(), // ID unik untuk transaksi
-    //         'gross_amount' => $total, // Total harga
-    //     ];
-
-    //     $snapToken = Snap::getSnapToken($transactionDetails); // Mengambil token dari Midtrans Snap
-
-    //     return view('checkout', compact('cartItems', 'snapToken', 'total'));
-    // }
 
     public function handleCheckout(Request $request)
     {
@@ -137,28 +118,15 @@ class TransactionController extends Controller
 
     public function cancelTransaction($id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::findOrFail($id);
 
-        if ($transaction->user_id !== Auth::id()) {
-            abort(403);
-        }
+        if ($transaction->status === 'pending') {
 
-        $transaction->status = 'cancelled';
-        $transaction->save();
-
-        return redirect()->route('transactions')->with('success', 'Transaction has been cancelled.');
-    }
-
-    public function updateTransactionStatus($transactionId)
-    {
-        $transaction = Transaction::findOrFail($transactionId);
-
-        $statusResponse = MidtransHelper::checkTransactionStatus($transaction->order_id);
-
-        if ($statusResponse) {
-            $transaction->status = $statusResponse['transaction_status'];
+            $transaction->status = 'cancelled';
             $transaction->save();
         }
+
+        return redirect()->back()->with('success', 'Transaction has been cancelled.');
     }
 
     public function confirm($id)

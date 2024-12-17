@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full dark">
 
 <head>
     <meta charset="utf-8">
@@ -16,24 +16,17 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Dark Mode Script -->
+
 </head>
 
-<body class="ant ialiased font-sans">
-    <div class="min-h-screen bg-gray-100">
+<body class="h-full font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
+    <div class="min-h-screen">
         @include('layouts.navigation')
-
-        <!-- Page Heading -->
-        {{-- @isset($header)
-                <header class="bg-white shadow">
-                    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset --}}
 
         <!-- Page Content -->
         <main>
-            {{-- {{ $slot }} --}}
             @yield('content')
         </main>
 

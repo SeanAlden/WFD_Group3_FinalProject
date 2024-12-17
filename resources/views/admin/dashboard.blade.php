@@ -4,228 +4,118 @@
     <body>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="mx-auto max-w-6xl rounded-lg bg-white p-6 shadow-md">
-                        <h1 class="mb-6 text-3xl font-bold">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                    <div class="max-w-6xl p-6 mx-auto bg-gray-100 rounded-lg shadow-md dark:bg-gray-700">
+                        <h1 class="mb-6 text-3xl font-bold text-gray-800 dark:text-gray-100">
                             Dashboard
                         </h1>
-                        <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-                            <div class="flex items-center justify-between rounded-lg bg-white p-6 shadow-md">
-                                {{-- <div>
-                                    <h2 class="text-xl font-bold">
-                                        Total Sales
-                                    </h2>
-                                    <p>
-                                        Total: X
-                                    </p>
-                                </div> --}}
-                                @foreach ($results as $result)
-                                    <div>
-                                        <h2 class="text-xl font-bold">Total Sales</h2>
-                                        <p>Total: {{ $result->total_completed_transactions }}</p>
-                                    </div>
-                                    <i class="fas fa-shopping-cart text-3xl">
-                                    </i>
-                            </div>
-                            <div class="flex items-center justify-between rounded-lg bg-white p-6 shadow-md">
-                                {{-- <div>
-                                    <h2 class="text-xl font-bold">
-                                        Total Income
-                                    </h2>
-                                    <p>
-                                        Rp X,XXX,XXX
-                                    </p>
-                                </div> --}}
+                        <div class="grid grid-cols-1 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-3">
+                            <div
+                                class="flex items-center justify-between p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
                                 <div>
-                                    <h2 class="text-xl font-bold">Total Income</h2>
-                                    {{-- <p>Rp {{ number_format($totalIncome, 0, ',', '.') }}</p> --}}
-                                    <p>Rp {{ $result->total_cost }}</p>
+                                    <h2 class="text-xl font-bold text-gray-700 dark:text-gray-200">Total Sales</h2>
+                                    <p class="text-gray-600 dark:text-gray-400">Total: {{ $totalSales }}</p>
                                 </div>
-                                <i class="fas fa-wallet text-3xl">
-                                </i>
+                                <i class="text-3xl text-blue-500 fas fa-shopping-cart"></i>
                             </div>
-                            @endforeach
-
-                            {{-- @foreach ($totalUsers as $totalUser) --}}
-                            <div class="flex items-center justify-between rounded-lg bg-white p-6 shadow-md">
-                                {{-- <div>
-                                    <h2 class="text-xl font-bold">
-                                        Total User
-                                    </h2>
-                                    <p>
-                                        XXXX
-                                    </p>
-                                </div> --}}
+                            <div
+                                class="flex items-center justify-between p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
                                 <div>
-                                    <h2 class="text-xl font-bold">Total Users</h2>
-                                    <p>{{ $totalUsers }}</p>
+                                    <h2 class="text-xl font-bold text-gray-700 dark:text-gray-200">Total Income</h2>
+                                    <p class="text-gray-600 dark:text-gray-400">Rp
+                                        {{ number_format($totalIncome, 0, ',', '.') }}</p>
                                 </div>
-                                <i class="fas fa-user text-3xl">
-                                </i>
+                                <i class="text-3xl text-green-500 fas fa-wallet"></i>
                             </div>
-                            {{-- @endforeach --}}
-
+                            <div
+                                class="flex items-center justify-between p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-700 dark:text-gray-200">Total Users</h2>
+                                    <p class="text-gray-600 dark:text-gray-400">{{ $totalUsers }}</p>
+                                </div>
+                                <i class="text-3xl text-purple-500 fas fa-user"></i>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 
-                            <div class="rounded-lg bg-white p-6 shadow-md">
-                                <h2 class="mb-4 text-xl font-bold">
-                                    Recents Orders
+                        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+                            <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                                <h2 class="mb-4 text-xl font-bold text-gray-700 dark:text-gray-200">
+                                    Recent Orders
                                 </h2>
-                                <table class="w-full text-left">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-b-2 p-2">
-                                                Product ID
-                                            </th>
-                                            <th class="border-b-2 p-2">
-                                                Product
-                                            </th>
-                                            <th class="border-b-2 p-2">
-                                                Price
-                                            </th>
-                                            <th class="border-b-2 p-2">
-                                                Quantity
-                                            </th>
-                                            <th class="border-b-2 p-2">
-                                                Total Price
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($carts as $cart)
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
                                             <tr>
-                                                <td class="border-b p-2">
-                                                    {{ $cart->product_id }}
-                                                </td>
-                                                <td class="flex items-center border-b p-2">
-                                                    <img alt="Product Image" class="mr-2 h-10 w-10" height="50" w-10 rounded
-                                                        src="{{ $cart->product->photo ? asset('storage/' . $cart->product->photo) : asset('img/avatar.png') }}" />
-                                                    {{ $cart->product->product_name }}
-                                                </td>
-                                                <td class="border-b p-2">
-                                                    {{ $cart->product->price }}
-                                                </td>
-                                                <td class="border-b p-2">
-                                                    {{ $cart->quantity }}
-                                                </td>
-                                                <td class="border-b p-2">
-                                                    {{ $cart->product->price * $cart->quantity }}
-                                                </td>
+                                                <th class="p-2 text-gray-700 border-b-2 dark:text-gray-300">
+                                                    Product ID
+                                                </th>
+                                                <th class="p-2 text-gray-700 border-b-2 dark:text-gray-300">
+                                                    Product
+                                                </th>
+                                                <th class="p-2 text-gray-700 border-b-2 dark:text-gray-300">
+                                                    Price
+                                                </th>
+                                                <th class="p-2 text-gray-700 border-b-2 dark:text-gray-300">
+                                                    Quantity
+                                                </th>
+                                                <th class="p-2 text-gray-700 border-b-2 dark:text-gray-300">
+                                                    Total Price
+                                                </th>
                                             </tr>
-                                        @endforeach
-                                        {{-- <tr>
-                                            <td class="border-b p-2">
-                                                XXXX
-                                            </td>
-                                            <td class="flex items-center border-b p-2">
-                                                <img alt="Product Image" class="mr-2 h-10 w-10" height="50"
-                                                    src="https://storage.googleapis.com/a1aa/image/4SotcyoDR6oxPBmzJffasVeGUccW6AM2JxBXsemCpWu0PEmPB.jpg"
-                                                    width="50" />
-                                                Product Name
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                XX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-b p-2">
-                                                XXXX
-                                            </td>
-                                            <td class="flex items-center border-b p-2">
-                                                <img alt="Product Image" class="mr-2 h-10 w-10" height="50"
-                                                    src="https://storage.googleapis.com/a1aa/image/4SotcyoDR6oxPBmzJffasVeGUccW6AM2JxBXsemCpWu0PEmPB.jpg"
-                                                    width="50" />
-                                                Product Name
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                XX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-b p-2">
-                                                XXXX
-                                            </td>
-                                            <td class="flex items-center border-b p-2">
-                                                <img alt="Product Image" class="mr-2 h-10 w-10" height="50"
-                                                    src="https://storage.googleapis.com/a1aa/image/4SotcyoDR6oxPBmzJffasVeGUccW6AM2JxBXsemCpWu0PEmPB.jpg"
-                                                    width="50" />
-                                                Product Name
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                XX
-                                            </td>
-                                            <td class="border-b p-2">
-                                                Rp XXXX
-                                            </td>
-                                        </tr> --}}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($recentOrders as $order)
+                                                <tr>
+                                                    <td class="p-2 text-gray-600 border-b dark:text-gray-400">
+                                                        {{ $order->id }}
+                                                    </td>
+                                                    <td
+                                                        class="flex items-center p-2 text-gray-600 border-b dark:text-gray-400">
+                                                        <img alt="Product Image" class="w-10 h-10 mr-2 rounded"
+                                                            height="50" w-10
+                                                            src="{{ $order->photo ? asset('storage/' . $order->photo) : asset('img/avatar.png') }}" />
+                                                        {{ $order->product_name }}
+                                                    </td>
+                                                    <td class="p-2 text-gray-600 border-b dark:text-gray-400">
+                                                        {{ $order->price }}
+                                                    </td>
+                                                    <td class="p-2 text-gray-600 border-b dark:text-gray-400">
+                                                        {{ $order->quantity }}
+                                                    </td>
+                                                    <td class="p-2 text-gray-600 border-b dark:text-gray-400">
+                                                        {{ number_format($order->total_price, 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="rounded-lg bg-white p-6 shadow-md">
-                                <h2 class="mb-4 text-xl font-bold">
+
+                            <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                                <h2 class="mb-4 text-xl font-bold text-gray-700 dark:text-gray-200">
                                     Top Products
                                 </h2>
-                                @foreach ($products as $product)
-                                <div class="mb-4 flex items-center">
-                                    <img alt="Product Image" class="mr-2 h-10 w-10" height="50" w-10 rounded
-                                                        src="{{ $product->photo ? asset('storage/' . $product->photo) : asset('img/avatar.png') }}" />
-                                    <div>
-                                        <p>
-                                            {{ $product->product_name }}
-                                        </p>
-                                        <p>
-                                            {{ $product->price }}
-                                        </p>
+                                @foreach ($bestSellers as $product)
+                                    <div class="flex items-center mb-4">
+                                        <img alt="Product Image" class="w-10 h-10 mr-2 rounded" height="50" w-10
+                                            src="{{ $product->photo ? asset('storage/' . $product->photo) : asset('img/avatar.png') }}" />
+                                        <div>
+                                            <p class="text-gray-700 dark:text-gray-200">
+                                                {{ $product->product_name }}
+                                            </p>
+                                            <p class="text-gray-600 dark:text-gray-400">
+                                                {{ number_format($product->price, 0, ',', '.') }}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 @endforeach
-                                
-                                {{-- <div class="mb-4 flex items-center">
-                                    <img alt="Best Seller Product Image" class="mr-4 h-10 w-10" height="50"
-                                        src="https://storage.googleapis.com/a1aa/image/ws3omo6N1w5OAdEFhLQrWC7laNCEiDegbgLTCsQyGEu9hw8JA.jpg"
-                                        width="50" />
-                                    <div>
-                                        <p>
-                                            Product Name
-                                        </p>
-                                        <p>
-                                            Rp XXXX
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center">
-                                    <img alt="Best Seller Product Image" class="mr-4 h-10 w-10" height="50"
-                                        src="https://storage.googleapis.com/a1aa/image/ws3omo6N1w5OAdEFhLQrWC7laNCEiDegbgLTCsQyGEu9hw8JA.jpg"
-                                        width="50" />
-                                    <div>
-                                        <p>
-                                            Product Name
-                                        </p>
-                                        <p>
-                                            Rp XXXX
-                                        </p>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </body>
 @endsection

@@ -10,26 +10,22 @@
         </div>
     @endif
 
-    <div class="py-12">
+    <div class="py-12 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <h2 class="mb-4 text-2xl font-bold">Shopping Cart</h2>
-            <div>
+            <h2 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Shopping Cart</h2>
+            <div class="space-y-4">
                 @foreach ($cartItems as $item)
-                    <div class="flex items-center justify-between p-4 mb-4 bg-white rounded-lg shadow">
-                        {{-- <div>
-                    <img alt="Product Image" class="object-cover w-full h-64 mb-4"
-                                            src="{{ $item->product->photo ? asset('storage/' . $item->product->photo) : asset('img/avatar.png') }}" />
-                    <h3 class="text-lg font-semibold">{{ $item->product->product_name }}</h3>
-                    <p>Price: IDR {{ number_format($item->product->price, 2) }}</p>
-                    <p>Stock: {{ $item->product->stock }}</p>
-                </div> --}}
+                    <div
+                        class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                         <div class="flex items-start space-x-4">
                             <img alt="Product Image" class="object-cover w-32 h-32 rounded-md"
                                 src="{{ $item->product->photo ? asset('storage/' . $item->product->photo) : asset('img/avatar.png') }}" />
                             <div>
-                                <h3 class="text-lg font-semibold">{{ $item->product->product_name }}</h3>
-                                <p>Price: IDR {{ number_format($item->product->price, 2) }}</p>
-                                <p>Stock: {{ $item->product->stock }}</p>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    {{ $item->product->product_name }}</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Price: IDR
+                                    {{ number_format($item->product->price, 2) }}</p>
+                                <p class="text-gray-700 dark:text-gray-300">Stock: {{ $item->product->stock }}</p>
                             </div>
                         </div>
 
@@ -39,7 +35,7 @@
                             @method('DELETE')
                             <button type="submit"
                                 onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini dari keranjang?')"
-                                class="text-red-600 hover:text-red-800">
+                                class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600">
                                 <!-- Ikon Delete -->
                                 <i class="mr-2 fas fa-trash-alt"></i> Delete
                             </button>
@@ -47,38 +43,31 @@
 
                         <div class="flex items-center">
                             <button onclick="updateQuantity({{ $item->id }}, -1)"
-                                class="px-2 py-1 text-white bg-gray-500 rounded">
+                                class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
                                 -
                             </button>
                             <input type="text" readonly value="{{ $item->quantity }}"
-                                class="w-12 mx-2 text-center border">
+                                class="w-12 mx-2 text-center bg-gray-100 border dark:bg-gray-700 dark:text-white">
                             <button onclick="updateQuantity({{ $item->id }}, 1)"
-                                class="px-2 py-1 text-white bg-blue-500 rounded">
+                                class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
                                 +
                             </button>
                         </div>
                     </div>
                 @endforeach
             </div>
-            <h3 class="mt-6 text-lg font-bold">Total: IDR {{ number_format($total, 2) }}</h3>
+            <h3 class="mt-6 text-lg font-bold text-gray-900 dark:text-white">Total: IDR {{ number_format($total, 2) }}</h3>
             <div class="flex items-center justify-between mt-4">
-                {{-- <div>
-                    <input type="text" placeholder="Coupon Code" class="p-2 border rounded">
-                    <button class="px-4 py-2 ml-2 text-white bg-green-500 rounded">Apply</button>
-                </div> --}}
-                <a href="{{ route('checkout') }}" class="px-4 py-2 text-white bg-blue-500 rounded">
+                <a href="{{ route('checkout') }}"
+                    class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
                     Checkout
                 </a>
             </div>
-            {{-- <div class="mt-4">
-                <input type="text" placeholder="Coupon Code" class="p-2 border rounded">
-                <button class="px-4 py-2 ml-2 text-white bg-green-500 rounded">Apply</button>
-            </div> --}}
         </div>
     </div>
 @endsection
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const flashMessage = document.getElementById('flash-message');
         if (flashMessage) {
             setTimeout(() => {

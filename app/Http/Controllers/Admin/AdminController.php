@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Result;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,77 +16,36 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // Total Sales
-        // $totalSales = DB::table('results')
-        //     ->where('status', 'completed')
-        //     ->count();
-        $results = Result::all();
+        // Fetch total sales and income
+        $result = Result::first(); // Asumsi hanya ada satu entry untuk statistik
 
-        // Total Income
-        // $totalIncome = DB::table('results')
-        //     ->where('status', 'completed')
-        //     ->sum('total_cost');
+        // Fetch total users with 'usertype' user
+        $totalUsers = User::where('usertype', 'user')->count();
 
-        // Total Users
-        $totalUsers = DB::table('users')
-            ->where('usertype', 'user')
-            ->count();
+        // Fetch recent orders (last 4 completed transactions)
+        $recentOrders = Cart::join('products', 'carts.product_id', '=', 'products.id')
+            ->select('carts.*', 'products.product_name', 'products.photo', 'products.price', DB::raw('carts.quantity * products.price as total_price'))
+            ->orderByDesc('carts.created_at')
+            ->limit(4)
+            ->get();
 
-        // Recent Orders
-        // $recentOrders = DB::table('transactions')
-        //     ->join('products', 'transactions.id', '=', 'products.id')
-        //     ->where('transactions.status', 'completed')
-        //     ->orderBy('transactions.created_at', 'desc')
-        //     ->take(4)
-        //     ->select(
-        //         'transactions.id as order_id',
-        //         'products.product_name as product_name',
-        //         'products.photo as product_photo',
-        //         'products.price as product_price',
-        //         'carts.quantity',
-        //         DB::raw('products.price * carts.quantity as total_price')
-        //     )
-        //     ->get();
-        $carts = Cart::all()
-        ->take(4);
+        // Fetch best seller products (top 3 by quantity sold)
+        $bestSellers = Cart::join('products', 'carts.product_id', '=', 'products.id')
+            ->select('products.product_name', 'products.photo', 'products.price', DB::raw('SUM(carts.quantity) as total_sold'))
+            ->groupBy('carts.product_id', 'products.product_name', 'products.photo', 'products.price')
+            ->orderByDesc('total_sold')
+            ->limit(3)
+            ->get();
 
-        // Best Seller Products
-        // $bestSellerProducts = DB::table('transactions')
-        //     ->join('products', 'transactions.product_id', '=', 'products.id')
-        //     ->where('transactions.status', 'completed')
-        //     ->select(
-        //         'products.id as product_id',
-        //         'products.name as product_name',
-        //         'products.photo as product_photo',
-        //         'products.price as product_price',
-        //         DB::raw('SUM(transactions.quantity) as total_sold')
-        //     )
-        //     ->groupBy('products.id', 'products.name', 'products.photo', 'products.price')
-        //     ->orderBy('total_sold', 'desc')
-        //     ->take(3)
-        //     ->get();
-        $products = Product::all()
-        ->take(3);
-
-        // Return Data to View
-        // return view('admin.dashboard', compact('result', 'totalUsers', 'recentOrders', 'bestSellerProducts'));
-        return view('admin.dashboard', compact('results', 'totalUsers', 'carts', 'products'));
+        return view('admin.dashboard', [
+            'totalSales' => $result->total_completed_transactions ?? 0,
+            'totalIncome' => $result->total_cost ?? 0,
+            'totalUsers' => $totalUsers,
+            'recentOrders' => $recentOrders,
+            'bestSellers' => $bestSellers,
+        ]);
     }
 
-    // public function upload(Request $request)
-    // {
-    //     $request->validate([
-    //         'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //     ]);
-
-    //     $path = $request->file('profile_image')->store('profile_images', 'public');
-
-    //     $user = auth()->Guard::user();
-    //     $user->profile_image = $path;
-    //     $user->save();
-
-    //     return redirect()->back()->with('status', 'profile-updated');
-    // }
     public function upload(Request $request)
     {
         $request->validate([

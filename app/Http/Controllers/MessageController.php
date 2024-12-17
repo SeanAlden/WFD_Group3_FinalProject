@@ -42,6 +42,7 @@ class MessageController extends Controller
         }
 
         // Kembali ke halaman sebelumnya
-        return redirect()->route('messages.index');
+        // return redirect()->route('messages.index');
+        return redirect()->route('view.messages');
     }
 }
