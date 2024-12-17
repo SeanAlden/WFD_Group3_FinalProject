@@ -139,7 +139,7 @@
 
             <div id="popup"
                 class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
-                <div class="relative w-1/2 max-h-screen p-6 overflow-y-auto bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                <div class="relative w-1/2 max-h-screen p-6 overflow-y-auto bg-white rounded-lg shadow-lg dark:bg-gray-600">
                     <!-- Close Button -->
                     <button
                         class="absolute flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded-full right-4 top-4"

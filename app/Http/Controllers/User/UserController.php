@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -25,7 +26,9 @@ class UserController extends Controller
 
     public function contactus()
     {
-        return view('contactus');
+        $user = Auth::user(); // Ambil data user yang sedang login
+        return view('contactus', compact('user'));
+        // return view('contactus');
     }
 
     public function cart()

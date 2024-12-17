@@ -3,14 +3,7 @@
         <!-- Section: Solutions -->
         <div class="mb-10 text-center">
             <h2 class="mb-6 text-2xl font-bold tracking-wide">Our Solutions</h2>
-            <div class="flex flex-wrap justify-center gap-4 lg:gap-8">
-                <a href="#"
-                    class="px-4 py-2 text-white transition bg-blue-600 rounded-full hover:bg-blue-700">Solution 1</a>
-                <a href="#"
-                    class="px-4 py-2 text-white transition bg-blue-600 rounded-full hover:bg-blue-700">Solution 2</a>
-                <a href="#"
-                    class="px-4 py-2 text-white transition bg-blue-600 rounded-full hover:bg-blue-700">Solution 3</a>
-            </div>
+            
         </div>
 
         <!-- Divider -->
@@ -20,7 +13,7 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Column 1 -->
             <div>
-                <h3 class="mb-4 text-lg font-semibold">SRRE SHOP</h3>
+                <h3 class="mb-4 text-lg font-semibold">WFDGP3 STORE</h3>
                 <ul class="space-y-2">
                     <li><a href="#" class="hover:underline hover:text-blue-500">About</a></li>
                     <li><a href="#" class="hover:underline hover:text-blue-500">Clients</a></li>
@@ -64,7 +57,7 @@
 
         <!-- Footer Bottom -->
         <div class="flex flex-col items-center justify-between text-sm sm:flex-row">
-            <p>© 2024 SRRE SHOP. All Rights Reserved.</p>
+            <p>© 2024 WFDGP3 STORE. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

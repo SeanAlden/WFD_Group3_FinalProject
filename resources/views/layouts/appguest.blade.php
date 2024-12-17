@@ -62,7 +62,7 @@
     @endif
 
     <div class="min-h-screen">
-        @include('layouts.navigation')
+        @include('layouts.navbar')
 
         <!-- Page Content -->
         <main>

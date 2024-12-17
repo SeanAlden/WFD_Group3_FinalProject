@@ -29,10 +29,12 @@ class TransactionController extends Controller
 
     public function checkout()
     {
+        $user = Auth::user();
         $cartItems = Cart::with('product')->get();
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
         return view('checkout', [
+            'user' => $user,
             'cartItems' => $cartItems,
             'total' => $total,
         ]);
@@ -54,6 +56,9 @@ class TransactionController extends Controller
         $cartItems = Cart::with('product')->get();
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
+        // Ambil data user yang sedang login
+        $user = Auth::user();
+
         // Data untuk transaksi Midtrans
         $transactionDetails = [
             'order_id' => 'ORDER-' . uniqid(),
@@ -70,10 +75,10 @@ class TransactionController extends Controller
         })->toArray();
 
         $customerDetails = [
-            'first_name' => $request->input('first_name'),
+            'first_name' => $user->name,
             'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
+            'email' => $user->email,
+            'phone' => $user->phone,
         ];
 
         $transactionPayload = [

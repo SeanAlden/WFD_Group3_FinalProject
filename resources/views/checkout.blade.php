@@ -53,30 +53,32 @@
                 <form id="checkout-form" class="space-y-6">
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
-                            <label for="first_name" class="block font-medium text-gray-700 dark:text-gray-300">First
-                                Name</label>
-                            <input type="text" id="first_name" name="first_name"
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
-                                required>
+                            <label for="first_name" class="block font-medium text-gray-700 dark:text-gray-300">Name</label>
+                            <p id="first_name" name="first_name"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                                {{ $user->name }}
+                            </p>
                         </div>
-                        <div>
+                        {{-- <div>
                             <label for="last_name" class="block font-medium text-gray-700 dark:text-gray-300">Last
                                 Name</label>
                             <input type="text" id="last_name" name="last_name"
                                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
                                 required>
-                        </div>
+                        </div> --}}
                         <div>
                             <label for="email" class="block font-medium text-gray-700 dark:text-gray-300">Email</label>
-                            <input type="email" id="email" name="email"
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
-                                required>
+                            <p id="email" name="email"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                                {{ $user->email }}
+                            </p>
                         </div>
                         <div>
                             <label for="phone" class="block font-medium text-gray-700 dark:text-gray-300">Phone</label>
-                            <input type="text" id="phone" name="phone"
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
-                                required>
+                            <p id="phone" name="phone"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                                {{ $user->phone }}
+                            </p>
                         </div>
                     </div>
                     <div class="text-center">

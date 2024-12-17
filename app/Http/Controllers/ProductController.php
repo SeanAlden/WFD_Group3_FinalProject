@@ -19,7 +19,6 @@ class ProductController extends Controller
 
         $products = Product::all(); // Mengambil semua data produk dari database
 
-        // return view('admin.product', compact('products')); 
         return view('admin.product', compact('products', 'categories')); 
     }
 
@@ -27,7 +26,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'photo' => 'nullable|mimes:png,jpeg,jpg|max:2048',
-            'product_name' => 'required|string',
+            'product_name' => 'required|string|unique:products,product_name',
             'description' => 'required|string',
             'brand' => 'required|string',
             'cpu' => 'required|string',
@@ -37,6 +36,8 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'price' => 'required|numeric',
             'category_id' => 'required',
+        ],[
+            'product_name.unique' => 'Product name has been used', // Custom message
         ]);
 
         // Upload file photo

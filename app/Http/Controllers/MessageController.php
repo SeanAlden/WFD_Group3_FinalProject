@@ -4,33 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
     //
+    public function contactUs()
+    {
+        $user = Auth::user(); // Ambil data user yang sedang login
+        return view('contactus', compact('user'));
+    }
     public function index()
     {
         $messages = Message::all(); // Mengambil semua data produk dari database
-        return view('admin.usermessages', compact('messages')); 
+        return view('admin.usermessages', compact('messages'));
     }
 
     public function store(Request $request)
     {
+        // Ambil data user yang sedang login
+        $user = Auth::user();
+
+        // Validasi input pesan
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:15',
             'message' => 'required|string',
         ]);
 
+        // Simpan Data
         Message::create([
-            'full_name' => $request->input('full_name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
+            'full_name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
             'message' => $request->input('message'),
         ]);
 
-        return redirect('/')->with('success', 'Your message has been sent successfully!');
+        // return redirect('/')->with('success', 'Your message has been sent successfully!');
+        return redirect()->back()->with('success', 'Your message has been sent successfully!');
     }
 
     public function destroy($id)
@@ -42,7 +51,6 @@ class MessageController extends Controller
         }
 
         // Kembali ke halaman sebelumnya
-        // return redirect()->route('messages.index');
         return redirect()->route('view.messages');
     }
 }

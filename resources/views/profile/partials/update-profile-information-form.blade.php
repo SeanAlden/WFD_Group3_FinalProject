@@ -52,6 +52,14 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" class="dark:text-gray-100" />
+            <x-text-input id="phone" name="phone" type="text"
+                class="block w-full mt-1 dark:bg-gray-700 dark:text-white dark:border-gray-600" 
+                :value="old('phone', $user->phone)" required autocomplete="phone" />
+            <x-input-error class="mt-2 dark:text-red-500" :messages="$errors->get('phone')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button class="dark:bg-lime-600 dark:hover:bg-lime-600">{{ __('Save') }}</x-primary-button>
 

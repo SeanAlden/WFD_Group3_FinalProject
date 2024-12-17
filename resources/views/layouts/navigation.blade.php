@@ -7,9 +7,10 @@
                  <div class="flex items-center shrink-0">
                      <a href="{{ Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard') }}">
                          <x-application-logo class="block w-auto text-gray-800 fill-current dark:text-white h-9" />
-                     </a>
-                 </div>
-
+                        </a>
+                        <a class="text-2xl font-semibold text-gray-800 dark:text-white" href="#">WFDGP3 Store</a>
+                    </div>
+                    
                  <!-- Navigation Links -->
                  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                      <x-nav-link :href="Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard')" :active="Auth::user()->usertype == 'admin'

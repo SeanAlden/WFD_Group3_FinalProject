@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -21,11 +22,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-
 // user routes
 Route::middleware(['auth', 'userMiddleware'])->group(function () {
 
-    Route::get('/', [UserController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::post('/profile/upload', [UserController::class, 'upload'])->name('profile.upload');
     Route::get('/contactus', [UserController::class, 'contactus'])->name('contact.us');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
@@ -42,11 +42,9 @@ Route::middleware(['auth', 'userMiddleware'])->group(function () {
 
 // admin routes
 Route::middleware(['auth', 'adminMiddleware'])->group(function () {
-
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/product', [ProductController::class, 'index'])->name('admin.product');
     Route::post('/profile/upload', [AdminController::class, 'upload'])->name('profile.upload');
-
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
