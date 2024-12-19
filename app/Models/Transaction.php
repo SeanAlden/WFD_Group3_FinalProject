@@ -21,6 +21,16 @@ class Transaction extends Model
 
     public function product()
     {
+        return $this->hasMany(Product::class);
+    }
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'transaction_id');
     }
 }

@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            // relasi dengan user agar cart tersebut hanya dimiliki oleh user yang membuatnya
+            $table->unsignedBigInteger('user_id'); 
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->timestamps();
 
+            // relasi dengan tabel users
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
+            // relasi dengan tabel products
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }

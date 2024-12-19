@@ -15,7 +15,7 @@
                             </button>
                         </div>
 
-                        <!-- List of Products -->
+                        <!-- menampilkan daftar produk -->
                         <div class="overflow-x-auto bg-white rounded-md shadow dark:bg-gray-700">
                             <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100">List of Products</h2>
                             <table class="w-full text-sm border-collapse table-auto">
@@ -72,9 +72,9 @@
                             </table>
                         </div>
 
-                        
 
-                        <!-- Modal Add Product -->
+
+                        <!-- UI untuk tambah produk -->
                         <div id="addProductModal"
                             class="fixed inset-0 z-10 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
                             <div class="w-1/2 p-6 bg-white rounded-lg shadow-lg dark:bg-gray-900">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
 
-                        <!-- Modal Delete Confirm -->
+                        <!-- UI konfirmasi penghapusan -->
                         <div id="deleteConfirmModal"
                             class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
                             <div class="p-6 bg-white rounded shadow dark:bg-gray-900">
@@ -151,15 +151,16 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Modal Edit Product -->
+
+                        <!-- UI untuk edit produk -->
                         <div id="editProductModal"
                             class="fixed inset-0 z-10 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
                             <div class="w-1/2 p-6 bg-white rounded-lg shadow-lg dark:bg-gray-900">
                                 <form id="editProductForm" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100">Edit Product</h2>
+                                    <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100">Edit Product
+                                    </h2>
                                     <div class="mb-5 form-group col-md-12">
                                         <label for="">Photo</label>
                                         <div class="avatar-upload">
@@ -213,6 +214,22 @@
                             </div>
                         </div>
                     </div>
+                    <!-- UI notifikasi jika ada produk di cart -->
+                    <div id="productInCartModal"
+                        class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+                        <div class="p-6 bg-white rounded shadow dark:bg-gray-900">
+                            <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100">Produk Sedang Diproses
+                            </h2>
+                            <p class="mb-4 text-gray-800 dark:text-gray-300">Produk ini sedang berada di dalam proses
+                                pemesanan sehingga tidak
+                                dapat dihapus.
+                            </p>
+                            <div class="flex justify-end">
+                                <button type="button" onclick="closeProductInCartModal()"
+                                    class="px-4 py-2 bg-gray-200 dark:bg-gray-700 dark:text-gray-200">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
     </body>
@@ -228,7 +245,6 @@
 
         function editProduct(product) {
             document.getElementById('editProductForm').action = `/products/${product.id}`;
-            // document.getElementById('editProductImage').value = product.photo;
             document.getElementById('editProductName').value = product.product_name;
             document.getElementById('editProductDesc').value = product.description;
             document.getElementById('editBrand').value = product.brand;
@@ -245,15 +261,36 @@
         function hideEditProductModal() {
             document.getElementById('editProductModal').classList.add('hidden');
         }
-
-        // Show Delete Confirm Modal
+        
         function showDeleteConfirmModal(productId) {
-            const deleteForm = document.getElementById('deleteProductForm');
-            deleteForm.action = `/products/${productId}`;
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
+            fetch(`/products/${productId}/check-cart`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.inCart) {
+                        // menampilkan kalau ada produk di cart
+                        showProductInCartModal();
+                    } else {
+                        // jika tidak ada di cart, dapat melakukan delete
+                        const deleteForm = document.getElementById('deleteProductForm');
+                        deleteForm.action = `/products/${productId}`;
+                        document.getElementById('deleteConfirmModal').classList.remove('hidden');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking product in cart:', error);
+                });
         }
 
-        // Close Delete Confirm Modal
+        function showProductInCartModal() {
+            const modal = document.getElementById('productInCartModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductInCartModal() {
+            const modal = document.getElementById('productInCartModal');
+            modal.classList.add('hidden');
+        }
+        
         function closeDeleteConfirmModal() {
             document.getElementById('deleteConfirmModal').classList.add('hidden');
         }

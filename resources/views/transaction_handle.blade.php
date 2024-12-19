@@ -14,6 +14,7 @@
                                     <th class="px-6 py-3 font-medium text-gray-700 dark:text-gray-200">Gross Amount</th>
                                     <th class="px-6 py-3 font-medium text-gray-700 dark:text-gray-200">Status</th>
                                     <th class="px-6 py-3 font-medium text-gray-700 dark:text-gray-200">Action</th>
+                                    <th class="px-6 py-3 font-medium text-gray-700 dark:text-gray-200">Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +47,12 @@
                                                     class="px-4 py-2 font-semibold text-gray-700 bg-gray-300 rounded-lg cursor-not-allowed dark:bg-gray-600 dark:text-gray-400"
                                                     disabled>No Action</button>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('transaction.show', $transaction->id) }}"
+                                                class="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+                                                View Details
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

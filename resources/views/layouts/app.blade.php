@@ -17,8 +17,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Dark Mode Script -->
-
 </head>
 
 <body class="h-full font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
@@ -30,7 +28,7 @@
         </div>
 
         <script>
-            // Hilangkan notifikasi sukses setelah 3 detik
+            // menghilangkan notifikasi sukses setelah 3 detik
             setTimeout(function() {
                 var successNotification = document.getElementById('success-notification');
                 if (successNotification) {
@@ -51,7 +49,7 @@
             </ul>
         </div>
         <script>
-            // Hilangkan notifikasi error setelah 3 detik
+            // menghilangkan notifikasi error setelah 3 detik
             setTimeout(function() {
                 var errorNotification = document.getElementById('error-notification');
                 if (errorNotification) {

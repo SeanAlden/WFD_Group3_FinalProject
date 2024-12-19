@@ -26,6 +26,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             'phone' => ['required', 'string', 'max:15'], // Tambahkan validasi untuk phone
+            'profile_image' => ['nullable','mimes:png,jpeg,jpg','max:2048'],
         ];
     }
 }

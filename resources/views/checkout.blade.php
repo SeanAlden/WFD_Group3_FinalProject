@@ -85,6 +85,12 @@
                         <button type="submit"
                             class="px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400">Confirm</button>
                     </div>
+                    <div class="mt-6">
+                        <a href="{{ route('user.cart') }}"
+                            class="inline-block px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                            Back to Cart
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>

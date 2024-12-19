@@ -1,6 +1,19 @@
-@extends('layouts.appguest')
-
-@section('content')
+<nav class="bg-white shadow-md">
+    <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+        <a class="text-2xl font-semibold text-gray-800" href="#">WFDGP3 Store</a>
+        <div>
+            <a class="text-gray-800 hover:text-blue-600" href="{{ route('home') }}">Home</a>
+        </div>
+        <div class="hidden space-x-6 lg:flex" id="navbarSupportedContent">
+            <div class="flex items-center space-x-4">
+                <a href="{{ route('login') }}"
+                    class="px-4 py-2 text-white transition duration-300 bg-blue-500 rounded-lg hover:bg-blue-600">Login</a>
+                <a href="{{ route('register') }}"
+                    class="px-4 py-2 text-white transition duration-300 bg-blue-500 rounded-lg hover:bg-blue-600">Register</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
@@ -9,7 +22,8 @@
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')"
+                required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -18,8 +32,8 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-            
+        </div>
+
         <!-- Phone -->
         <div class="mt-4">
             <x-input-label for="phone" :value="__('Phone')" />
@@ -31,10 +45,8 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block w-full mt-1"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <x-text-input id="password" class="block w-full mt-1" type="password" name="password" required
+                autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -43,15 +55,15 @@
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input id="password_confirmation" class="block w-full mt-1"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+            <x-text-input id="password_confirmation" class="block w-full mt-1" type="password"
+                name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -61,4 +73,3 @@
         </div>
     </form>
 </x-guest-layout>
-@endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // use App\Helpers\MidtransHelper;
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Product;
 use App\Models\Result;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,9 @@ class TransactionController extends Controller
     public function checkout()
     {
         $user = Auth::user();
-        $cartItems = Cart::with('product')->get();
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
         return view('checkout', [
@@ -53,13 +56,14 @@ class TransactionController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        $cartItems = Cart::with('product')->get();
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
-        // Ambil data user yang sedang login
         $user = Auth::user();
 
-        // Data untuk transaksi Midtrans
+        // data yang hanya dapat digunakan untuk transaksi dengan Midtrans
         $transactionDetails = [
             'order_id' => 'ORDER-' . uniqid(),
             'gross_amount' => $total,
@@ -90,7 +94,6 @@ class TransactionController extends Controller
         try {
             $snapToken = Snap::getSnapToken($transactionPayload);
 
-            // Simpan transaksi ke database
             $transaction = Transaction::create([
                 'user_id' => Auth::id(),
                 'order_id' => $transactionDetails['order_id'],
@@ -139,18 +142,17 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
 
         if ($transaction->status === 'pending') {
-            // Update status to "Completed"
             $transaction->status = 'completed';
             $transaction->save();
 
-            // Calculate total completed transactions and total cost
+            // menghitung total transaksi yang complete dan total cost nya
             $completedTransactions = Transaction::where('status', 'completed')->get();
             $totalTransactions = $completedTransactions->count();
             $totalCost = $completedTransactions->sum('gross_amount');
 
-            // Update or Create result entry
+            // membuat serta meng-update setiap ada hasil yang masuk
             Result::updateOrCreate(
-                ['id' => 1], // Assuming single result row
+                ['id' => 1],
                 [
                     'total_completed_transactions' => $totalTransactions,
                     'total_cost' => $totalCost,
@@ -159,5 +161,11 @@ class TransactionController extends Controller
         }
 
         return redirect()->back()->with('success', 'Transaction confirmed successfully.');
+    }
+
+    public function show($id)
+    {
+        $transaction = Transaction::with('carts.product')->findOrFail($id);
+        return view('transaction_detail', compact('transaction'));
     }
 }

@@ -3,61 +3,80 @@
         <!-- Section: Solutions -->
         <div class="mb-10 text-center">
             <h2 class="mb-6 text-2xl font-bold tracking-wide">Our Solutions</h2>
-            
+
         </div>
 
         <!-- Divider -->
         <div class="mb-8 border-t border-gray-300 dark:border-gray-700"></div>
 
         <!-- Footer Links -->
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid items-center justify-center grid-cols-1 gap-8 text-center sm:grid-cols-2 lg:grid-cols-2">
             <!-- Column 1 -->
             <div>
                 <h3 class="mb-4 text-lg font-semibold">WFDGP3 STORE</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:underline hover:text-blue-500">About</a></li>
-                    <li><a href="#" class="hover:underline hover:text-blue-500">Clients</a></li>
-                    <li><a href="#" class="hover:underline hover:text-blue-500">Career</a></li>
-                    <li><a href="#" class="hover:underline hover:text-blue-500">Contact Us</a></li>
+                    <li><button class="hover:underline hover:text-blue-500" onclick="showContent('about')">About</button>
+                    </li>
+                    <li><button class="hover:underline hover:text-blue-500"
+                            onclick="showContent('clients')">Clients</button></li>
+                    <li><button class="hover:underline hover:text-blue-500"
+                            onclick="showContent('career')">Career</button></li>
                 </ul>
             </div>
             <!-- Column 2 -->
             <div>
                 <h3 class="mb-4 text-lg font-semibold">Legal</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:underline hover:text-blue-500">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:underline hover:text-blue-500">Terms of Use</a></li>
+                    <li><button class="hover:underline hover:text-blue-500" onclick="showContent('privacy')">Privacy
+                            Policy</button></li>
+                    <li><button class="hover:underline hover:text-blue-500" onclick="showContent('terms')">Terms of
+                            Use</button></li>
                 </ul>
             </div>
-            <!-- Column 3 -->
-            <div>
-                <h3 class="mb-4 text-lg font-semibold">Follow Us</h3>
-                <div class="flex space-x-4">
-                    <a href="#" class="transition hover:opacity-75">
-                        <img src="/img/footer/icon-instagram.png" alt="Instagram" class="w-6 h-6">
-                    </a>
-                    <a href="#" class="transition hover:opacity-75">
-                        <img src="/img/footer/icon-tiktok.png" alt="TikTok" class="w-6 h-6">
-                    </a>
-                    <a href="#" class="transition hover:opacity-75">
-                        <img src="/img/footer/icon-linkedin.png" alt="LinkedIn" class="w-6 h-6">
-                    </a>
-                    <a href="#" class="transition hover:opacity-75">
-                        <img src="/img/footer/icon-youtube.png" alt="YouTube" class="w-6 h-6">
-                    </a>
-                    <a href="#" class="transition hover:opacity-75">
-                        <img src="/img/footer/icon-facebook.png" alt="Facebook" class="w-6 h-6">
-                    </a>
-                </div>
-            </div>
+        </div>
+
+        <!-- konten berubah berdasarkan tombol yang diklik -->
+        <div id="contentArea" class="p-4 mt-8 border rounded-md">
+            <p id="contentText">Pilih sebuah menu untuk melihat informasi.</p>
         </div>
 
         <!-- Divider -->
         <div class="my-8 border-t border-gray-300 dark:border-gray-700"></div>
 
         <!-- Footer Bottom -->
-        <div class="flex flex-col items-center justify-between text-sm sm:flex-row">
+        <div class="flex flex-col items-center justify-center text-sm sm:flex-row">
             <p>© 2024 WFDGP3 STORE. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
+<script>
+    function showContent(section) {
+        var contentText = document.getElementById("contentText");
+
+        switch (section) {
+            case 'about':
+                contentText.innerHTML =
+                    "WFDGP3 Store adalah toko komputer dan laptop yang melayani berbagai kebutuhan perangkat teknologi. Kami berkomitmen untuk menyediakan produk berkualitas dengan layanan pelanggan terbaik.";
+                break;
+            case 'clients':
+                contentText.innerHTML =
+                    "Kami telah melayani berbagai perusahaan dan individu. Klien kami mencakup perusahaan IT, institusi pendidikan, serta pengguna pribadi yang mencari perangkat berkualitas.";
+                break;
+            case 'career':
+                contentText.innerHTML =
+                    "Saat ini kami membuka kesempatan untuk bergabung dengan tim kami. Kami mencari orang-orang yang berbakat di bidang penjualan, pemasaran, dan dukungan pelanggan.";
+                break;
+            case 'privacy':
+                contentText.innerHTML =
+                    "Kami menjaga kerahasiaan data Anda dengan serius. Kebijakan privasi kami menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi Anda.";
+                break;
+            case 'terms':
+                contentText.innerHTML =
+                    "Ketentuan penggunaan kami mengatur bagaimana Anda dapat menggunakan situs web kami, termasuk hak dan kewajiban Anda sebagai pengguna.";
+                break;
+            default:
+                contentText.innerHTML = "Pilih sebuah menu untuk melihat informasi.";
+                break;
+        }
+    }
+</script>

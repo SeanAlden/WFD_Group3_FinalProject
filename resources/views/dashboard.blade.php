@@ -1,13 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (session('success'))
-        <script>
-            setTimeout(function() {
-                document.getElementById('success-notification').style.display = 'none';
-            }, 3000); // 3 detik
-        </script>
-    @endif
 
     <body class="items-center justify-center dark:bg-gray-900 dark:text-white">
         <div class="py-12">
@@ -76,20 +69,6 @@
                                             onclick="showAddToCartPopup({{ $product->id }})">
                                             Add to Cart
                                         </button>
-                                        {{-- <div id="add-to-cart-popup"
-                                            class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
-                                            <div class="relative w-1/3 p-6 bg-white rounded-lg shadow-lg">
-                                                <h3 class="mb-4 text-xl font-semibold dark:text-white">Add to Cart Confirmation</h3>
-                                                <p><strong>Price:</strong> <span id="popup-product-price"></span></p>
-                                                <p><strong>Stock:</strong> <span id="popup-product-stock"></span></p>
-                                                <div class="flex justify-end mt-6">
-                                                    <button class="px-4 py-2 mr-2 text-gray-700 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300"
-                                                        onclick="closeAddToCartPopup()">No</button>
-                                                    <button class="px-4 py-2 text-white bg-blue-500 rounded-lg"
-                                                        onclick="addToCart()">Yes</button>
-                                                </div>
-                                            </div>
-                                        </div> --}}
 
                                         <div id="add-to-cart-popup"
                                             class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-80">
@@ -115,7 +94,8 @@
                                                         onclick="closeAddToCartPopup()">No</button>
                                                     <!-- Tombol Yes -->
                                                     <button
-                                                        class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500" onclick="addToCart()">
+                                                        class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                                        onclick="addToCart()">
                                                         Yes
                                                     </button>
                                                 </div>
@@ -170,7 +150,6 @@
             </div>
         </div>
         <script>
-            // let currentProduct = null;
             const products = @json($products);
 
             function openPopup(productId) {
@@ -200,15 +179,14 @@
 
             const newsSlider = document.getElementById("news-slider");
 
-            // Fetch berita dan render ke slider
+            // mengambil berita dan render ke slider
             async function fetchNews() {
                 try {
                     const response = await fetch(newsApiUrl);
                     const data = await response.json();
-                    const articles = data.articles.slice(0, 20); // Ambil 100 berita pertama
-                    newsSlider.innerHTML = ""; // Kosongkan placeholder
+                    const articles = data.articles.slice(0, 20);
+                    newsSlider.innerHTML = "";
 
-                    // Render kartu berita
                     articles.forEach((article) => {
                         const newsCard = document.createElement("div");
                         newsCard.className =
@@ -247,11 +225,11 @@
                 }
             }
 
-            // Fungsi untuk mengaktifkan auto-scroll saat hover
+            // untuk mengaktifkan auto-scroll saat hover
             function enableAutoScroll(container) {
                 let isHovering = false;
 
-                // Event listener untuk hover
+                // event listener untuk hover
                 container.addEventListener("mouseenter", () => {
                     isHovering = true;
                     autoScroll(container);
@@ -260,7 +238,7 @@
                     isHovering = false;
                 });
 
-                // Auto-scroll
+                // auto-scroll
                 function autoScroll(container) {
                     if (!isHovering) return;
 
@@ -269,7 +247,7 @@
                         container.scrollTo({
                             left: 0,
                             behavior: "smooth"
-                        }); // Reset ke awal jika sudah di akhir
+                        }); // reset ke awal jika sudah di akhir
                     } else {
                         container.scrollBy({
                             left: container.offsetWidth,
@@ -277,11 +255,10 @@
                         });
                     }
 
-                    setTimeout(() => autoScroll(container), 5000); // Scroll setiap 5 detik
+                    setTimeout(() => autoScroll(container), 5000); // scroll setiap 5 detik
                 }
             }
 
-            // Fetch berita saat halaman dimuat
             fetchNews();
 
             let selectedProductId;
@@ -290,7 +267,6 @@
                 const product = products.find(p => p.id === productId);
                 selectedProductId = productId;
 
-                // document.getElementById('popup-product-description').textContent = product.description;
                 document.getElementById('popup-product-price').textContent =
                     `IDR ${parseFloat(product.price).toLocaleString()}`;
                 document.getElementById('popup-product-stock').textContent = product.stock;
@@ -327,10 +303,3 @@
         </script>
     </body>
 @endsection
-@if (session('success'))
-    <script>
-        setTimeout(function() {
-            document.getElementById('success-notification').style.display = 'none';
-        }, 3000); // 3 detik
-    </script>
-@endif

@@ -80,7 +80,7 @@
                  </button>
 
                  <!-- User Profile -->
-                 <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/profile.jpg') }}"
+                 <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('storage/profile_images/profile.jpg') }}"
                      alt="Profile Image" class="object-cover w-8 h-8 ml-4 rounded-full" />
                  <x-dropdown align="right" width="48">
                      <x-slot name="trigger">

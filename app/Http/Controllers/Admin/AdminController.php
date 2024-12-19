@@ -16,20 +16,20 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // Fetch total sales and income
-        $result = Result::first(); // Asumsi hanya ada satu entry untuk statistik
+        // mengambil total penjualan serta pendapatan dari semua transaksi
+        $result = Result::first(); 
 
-        // Fetch total users with 'usertype' user
+        // mengambil total user
         $totalUsers = User::where('usertype', 'user')->count();
 
-        // Fetch recent orders (last 4 completed transactions)
+        // mengambil produk-produk yang sedang dalam pesanan di cart ataupun yang sedang dalam checkout
         $recentOrders = Cart::join('products', 'carts.product_id', '=', 'products.id')
             ->select('carts.*', 'products.product_name', 'products.photo', 'products.price', DB::raw('carts.quantity * products.price as total_price'))
             ->orderByDesc('carts.created_at')
             ->limit(4)
             ->get();
 
-        // Fetch best seller products (top 3 by quantity sold)
+        // mengambil produk-produk yang paling laku dan paling sering dipilih user
         $bestSellers = Cart::join('products', 'carts.product_id', '=', 'products.id')
             ->select('products.product_name', 'products.photo', 'products.price', DB::raw('SUM(carts.quantity) as total_sold'))
             ->groupBy('carts.product_id', 'products.product_name', 'products.photo', 'products.price')
@@ -49,20 +49,18 @@ class AdminController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'profile_image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $user = Auth::user();
 
-        if ($request->hasFile('avatar')) {
-            $imagePath = $request->file('avatar')->store('profile_images', 'public');
-
-            // Delete the old profile image if exists
+        if ($request->hasFile('profile')) {
+            $imagePath = $request->file('profile')->store('profile_images', 'public');
+            
             if ($user->profile_image) {
                 Storage::delete('public/' . $user->profile_image);
             }
-
-            // Update the user's profile image in the database
+            
             $user->profile_image = $imagePath;
             $user->user::save();
         }

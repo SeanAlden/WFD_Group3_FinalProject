@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -17,20 +15,18 @@ class ProfileController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'profile_image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $user = Auth::user();
 
-        if ($request->hasFile('avatar')) {
-            $imagePath = $request->file('avatar')->store('profile_images', 'public');
+        if ($request->hasFile('profile')) {
+            $imagePath = $request->file('profile')->store('profile_images', 'public');
 
-            // Delete the old profile image if exists
             if ($user->profile_image) {
                 Storage::delete('public/' . $user->profile_image);
             }
 
-            // Update the user's profile image in the database
             $user->profile_image = $imagePath;
             $user->user::save();
         }

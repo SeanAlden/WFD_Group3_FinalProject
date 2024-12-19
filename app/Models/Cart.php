@@ -7,10 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     //
-    protected $fillable = ['product_id', 'quantity'];
+    protected $fillable = ['transaction_id','user_id', 'product_id', 'quantity'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

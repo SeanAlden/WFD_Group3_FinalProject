@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    
+
     public function index(Request $request)
     {
-        $categories = Category::all(); // Ambil semua kategori
+        $categories = Category::all();
 
-        // Ambil produk berdasarkan kategori yang dipilih
-        $categoryId = $request->query('category_id'); // Ambil parameter kategori dari query string
+        // melakukan pendataan produk berdasarkan kategori yang dipilih
+        $categoryId = $request->query('category_id');
         $products = Product::when($categoryId, function ($query) use ($categoryId) {
             return $query->where('category_id', $categoryId);
         })->get();
@@ -26,9 +26,8 @@ class UserController extends Controller
 
     public function contactus()
     {
-        $user = Auth::user(); // Ambil data user yang sedang login
+        $user = Auth::user();
         return view('contactus', compact('user'));
-        // return view('contactus');
     }
 
     public function cart()
@@ -39,10 +38,10 @@ class UserController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $path = $request->file('avatar')->store('profile_images', 'public');
+        $path = $request->file('profile')->store('profile_images', 'public');
 
         $user = auth()->Guard::user();
         $user->profile_image = $path;

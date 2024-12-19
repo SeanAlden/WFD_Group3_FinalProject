@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -17,12 +18,39 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+        });
+    }
+
+    public function setPhotoAttribute($value)
+    {
+        if ($this->profile_image && Storage::disk('public')->exists($this->profile_image)) {
+            Storage::disk('public')->delete($this->profile_image);
+        }
+
+        $this->attributes['profile_image'] = $value;
+    }
+
     protected $fillable = [
         'name',
         'email',
         'phone',
+        'profile_image',
         'password',
     ];
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

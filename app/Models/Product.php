@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function category(): BelongsTo 
+    public function category(): BelongsTo
     {
         return $this->belongsTo(related: Category::class);
     }
@@ -34,6 +34,16 @@ class Product extends Model
         }
 
         $this->attributes['photo'] = $value;
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 
     protected $fillable = [
